@@ -1,0 +1,41 @@
+name: Run Structural FEA (OpenSeesPy)
+
+on:
+  push:
+    paths:
+      - 'backend/building.json'
+  workflow_dispatch: # Allows manual triggering via API
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to commit results back
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install openseespy
+
+    - name: Run OpenSeesPy Analysis
+      working-directory: ./backend
+      run: |
+        python analyze.py
+
+    - name: Commit and Push Results
+      run: |
+        git config --global user.name "SamStruture-Bot"
+        git config --global user.email "bot@samstruture.app"
+        git add backend/results.json
+        # Only commit if there are changes
+        git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update: FEA results"
+        git push

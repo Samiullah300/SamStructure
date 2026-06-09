@@ -1,0 +1,19 @@
+{
+    "name": "Sample 3-Story Frame with Slab",
+    "nodes": [
+        {"id": 1, "x": 0.0, "y": 0.0, "z": 0.0, "fixed": [1, 1, 1, 1, 1, 1]},
+        {"id": 2, "x": 5.0, "y": 0.0, "z": 0.0, "fixed": [1, 1, 1, 1, 1, 1]},
+        {"id": 3, "x": 0.0, "y": 0.0, "z": 3.0, "fixed": [0, 0, 0, 0, 0, 0]},
+        {"id": 4, "x": 5.0, "y": 0.0, "z": 3.0, "fixed": [0, 0, 0, 0, 0, 0]}
+    ],
+    "beams": [
+        {"id": 1, "iNode": 3, "jNode": 4, "section": "Beam_300x500"}
+    ],
+    "columns": [
+        {"id": 1, "iNode": 1, "jNode": 3, "section": "Col_400x400"},
+        {"id": 2, "iNode": 2, "jNode": 4, "section": "Col_400x400"}
+    ],
+    "slabs": [
+        {"id": 1, "nodes": [3, 4, 6, 5], "thickness": 0.2}
+    ]
+}
