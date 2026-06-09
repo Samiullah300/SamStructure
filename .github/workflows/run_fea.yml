@@ -4,7 +4,9 @@ on:
   push:
     paths:
       - 'backend/building.json'
-  workflow_dispatch: # Allows manual triggering via API
+  workflow_dispatch:
+  repository_dispatch:
+    types: [run_fea] # Allows manual triggering via API
 
 jobs:
   analyze:
@@ -25,6 +27,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install openseespy
+
+    - name: Prepare Input Data
+      if: github.event_type == 'run_fea'
+      run: |
+        echo '${{ github.event.client_payload.building_data }}' > backend/building.json
 
     - name: Run OpenSeesPy Analysis
       working-directory: ./backend
