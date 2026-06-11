@@ -31,7 +31,7 @@ export default function App() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'llama3-8b-8192',
+        model: 'llama-3.1-8b-instant',
         messages: [
           { role: 'system', content: 'You are an expert structural engineer. The user will describe a building. You must extract the parameters and return ONLY a valid JSON object matching this schema: {"name": "string", "nodes": [{"id": int, "x": float, "y": float, "z": float, "fixed": [int,int,int,int,int,int]}], "beams": [{"id": int, "iNode": int, "jNode": int, "section": "string"}], "columns": [], "slabs": []}. DO NOT RETURN ANY TEXT OUTSIDE THE JSON.' },
           { role: 'user', content: prompt }
