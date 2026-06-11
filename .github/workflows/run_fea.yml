@@ -42,12 +42,22 @@ jobs:
       working-directory: ./backend
       run: |
         python analyze.py
+        # Verify the results file was created
+        if [ ! -f results.json ]; then
+          echo "ERROR: results.json was not generated!"
+          exit 1
+        fi
 
     - name: Commit and Push Results
       run: |
         git config --global user.name "SamStruture-Bot"
         git config --global user.email "bot@samstruture.app"
-        git add backend/results.json
-        # Only commit if there are changes
-        git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update: FEA results"
-        git push
+        # Only add if file exists
+        if [ -f backend/results.json ]; then
+          git add backend/results.json
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update: FEA results"
+          git push
+        else
+          echo "WARNING: backend/results.json not found, skipping commit"
+          exit 1
+        fi
